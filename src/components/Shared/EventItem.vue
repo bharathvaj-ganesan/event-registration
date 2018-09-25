@@ -17,12 +17,13 @@
 		<div class="text-truncate">
 			<span class="grey--text">{{location}}</span><br>
 			<span>{{description}}</span>
-			<p class="text-xs-right accent--text">{{timestamp | date}}</p>
+			<p class="accent--text">{{timestamp | date}}</p>
 		</div>
 		</v-card-title>
 		<v-card-actions>
-			<v-btn flat light color="primary" :to="`/events/${id}`">
-				Explore
+			<v-spacer></v-spacer>
+			<v-btn flat light color="primary" :to="`/events/${id}`" >
+				View More
 			</v-btn>
 		</v-card-actions>
 	</v-card>

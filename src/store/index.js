@@ -31,7 +31,7 @@ export default new Vuex.Store({
 				location: 'Mumbai',
 				duration: '4', // Hr
 				fee: '600', // INR
-				participants: ['user1@gmail.com', 'user3@gmail.com'],
+				participants: ['user4@gmail.com', 'user3@gmail.com'],
 				organizer: 'user2@gmail.com',
 				maxParticipants: 40,
 				timestamp: '2018-10-25T16:08:26.879Z'
@@ -69,7 +69,7 @@ export default new Vuex.Store({
 			{
 				email: 'user1@gmail.com',
 				password: 'tobekeptsecret',
-				registeredEvents: ['mj54Jk', 'l9yYQv', 'fQYzEH'],
+				registeredEvents: ['mj54Jk', 'l9yYQv'],
 				organizedEvents: ['axLltn']
 			}
 		],
@@ -99,6 +99,19 @@ export default new Vuex.Store({
 				color: payload.color || '',
 				timeout: payload.timeout || 3000
 			};
+		},
+		userRegisterEvent(state, payload) {
+			const { id, email } = payload;
+			state.user.registeredEvents.push(id);
+			state.events.find(event => event.id === id).participants.push(email);
+		},
+		userUnRegisterEvent(state, payload) {
+			const { id, email } = payload;
+			const eventIndex = state.user.registeredEvents.indexOf(id);
+			state.user.registeredEvents.splice(eventIndex, 1);
+			const event = state.events.find(event => event.id === id);
+			const userIndex = event.participants.indexOf(email);
+			event.participants.splice(userIndex, 1);
 		}
 	},
 	actions: {
@@ -133,6 +146,12 @@ export default new Vuex.Store({
 		},
 		logoutUser({ commit }) {
 			commit('setUser', null);
+		},
+		userRegisterEvent({ commit }, payload) {
+			commit('userRegisterEvent', payload);
+		},
+		userUnRegisterEvent({ commit }, payload) {
+			commit('userUnRegisterEvent', payload);
 		}
 	},
 	getters: {
