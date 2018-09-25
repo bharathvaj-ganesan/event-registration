@@ -7,6 +7,7 @@ import Event from '@/components/Event/Event';
 import OrganizeEvent from '@/components/Event/OrganizeEvent';
 import Signin from '@/components/Authentication/Signin';
 import Signup from '@/components/Authentication/Signup';
+import AuthGuard from '@/router/authGuard';
 
 Vue.use(Router);
 
@@ -20,6 +21,7 @@ export default new Router({
 		{
 			path: '/profile',
 			name: 'Profile',
+			beforeEnter: AuthGuard,
 			component: Profile
 		},
 		{
@@ -35,17 +37,20 @@ export default new Router({
 		{
 			path: '/events',
 			name: 'Events',
+			beforeEnter: AuthGuard,
 			component: Events
 		},
 		{
 			path: '/events/organize',
 			name: 'OrganizeEvent',
+			beforeEnter: AuthGuard,
 			component: OrganizeEvent
 		},
 		{
 			path: '/events/:id',
 			name: 'Event',
 			props: true,
+			beforeEnter: AuthGuard,
 			component: Event
 		}
 	]
