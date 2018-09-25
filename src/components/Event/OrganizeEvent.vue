@@ -53,13 +53,73 @@
 						></v-text-field>
 					</v-flex>
 					<v-flex xs12 sm6 offset-sm3>
+						<v-menu
+							ref="dateMenu"
+							:close-on-content-click="false"
+							:nudge-right="40"
+							:return-value.sync="date"
+							lazy
+							transition="scale-transition"
+							offset-y
+							full-width
+							max-width="290px"
+							min-width="290px"
+						>
+							<v-text-field
+								slot="activator"
+								v-model="date"
+								:rules="organizeEventFormRules.dateRules"
+								label="Choose a date"
+								prepend-icon="event"
+								readonly
+								></v-text-field>
+							<v-date-picker
+							v-model="date"
+							:allowed-dates="allowedEventDates"
+							no-title
+							scrollable
+							>
+							<v-spacer></v-spacer>
+							<v-btn flat color="primary" @click="menu = false">Cancel</v-btn>
+							<v-btn flat color="primary" @click="$refs.dateMenu.save(date)">OK</v-btn>
+						</v-date-picker>
+					</v-menu>
+					</v-flex>
+					<v-flex xs12 sm6 offset-sm3>
+						<v-menu
+							ref="timeMenu"
+							:close-on-content-click="false"
+							:nudge-right="40"
+							:return-value.sync="time"
+							lazy
+							transition="scale-transition"
+							offset-y
+							full-width
+							max-width="290px"
+							min-width="290px"
+						>
+							<v-text-field
+							slot="activator"
+							v-model="time"
+							label="Choose event start time"
+							:rules="organizeEventFormRules.timeRules"
+							prepend-icon="access_time"
+							readonly
+							></v-text-field>
+							<v-time-picker
+							v-model="time"
+							@change="$refs.timeMenu.save(time)"
+							></v-time-picker>
+						</v-menu>
+					</v-flex>
+					<v-flex xs12 sm6 offset-sm3>
 						<v-btn
-							color="light-blue"
+							color="accent"
 							class="white--text"
 							block
 							large
 							type="submit"
-							>Create Event</v-btn>
+							>Organize Event</v-btn>
 					</v-flex>
 				</v-layout>
 			</v-container>
@@ -78,6 +138,8 @@ export default {
 			location: '',
 			description: '',
 			fees: 0,
+			date: null,
+			time: null,
 			organizeEventFormRules: {
 				nameRules: [
 					v => {
@@ -105,26 +167,60 @@ export default {
 					},
 					v => (v && v < 2000) || 'Fees must be less than 2000 INR',
 					v => (v && parseInt(v) > 0) || 'Fees cannot be in negative values'
+				],
+				dateRules: [
+					v => {
+						return !!v || 'Date is required';
+					}
+				],
+				timeRules: [
+					v => {
+						return !!v || 'Time is required';
+					}
 				]
 			}
 		};
 	},
+	computed: {
+		timeStamp() {
+			const date = new Date(this.date);
+			if (typeof this.time === 'string') {
+				let hours = this.time.match(/^(\d+)/)[1];
+				const minutes = this.time.match(/:(\d+)/)[1];
+				date.setHours(hours);
+				date.setMinutes(minutes);
+			} else {
+				date.setHours(this.time.getHours());
+				date.setMinutes(this.time.getMinutes());
+			}
+			return date.toISOString();
+		}
+	},
 	methods: {
 		onOrganizeEvent() {
 			if (this.$refs.organizeEventForm.validate()) {
-				const { eventName: name, location, fees, description } = this;
+				const { eventName: name, location, fees, description, timeStamp } = this;
 				const eventData = {
 					id: uniqueIdGenerator(),
 					name,
 					location,
 					description,
-					fees
+					fees,
+					timeStamp
 				};
 				this.$store.dispatch('organizeEvent', eventData);
 				this.$router.push('/events');
 			} else {
 				return;
 			}
+		},
+		allowedEventDates(val) {
+			const today = new Date();
+			const selectedDate = new Date(val);
+			if (selectedDate < today) {
+				return false;
+			}
+			return true;
 		}
 	}
 };
