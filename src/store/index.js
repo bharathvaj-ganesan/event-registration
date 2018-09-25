@@ -1,9 +1,15 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import createPersistedState from 'vuex-persistedstate';
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
+	plugins: [
+		createPersistedState({
+			key: 'as_tmp'
+		})
+	],
 	state: {
 		events: [
 			{
@@ -130,7 +136,6 @@ export default new Vuex.Store({
 		signinUser({ getters, commit }, payload) {
 			const { email, password } = payload;
 			const user = getters.findUser(email, password);
-			console.log(user);
 			if (user) {
 				commit('setUser', {
 					...user
@@ -144,13 +149,27 @@ export default new Vuex.Store({
 		setNotification({ commit }, payload) {
 			commit('setNotification', payload);
 		},
+		clearNotification({ commit }) {
+			commit('setNotification', {
+				show: false
+			});
+		},
 		logoutUser({ commit }) {
 			commit('setUser', null);
 		},
 		userRegisterEvent({ commit }, payload) {
 			commit('userRegisterEvent', payload);
 		},
-		userUnRegisterEvent({ commit }, payload) {
+		userUnRegisterEvent({ commit, getters, dispatch }, payload) {
+			const event = getters.event(payload.id);
+			if (event.participants + 1 > event.maxParticipants) {
+				dispatch('setNotification', {
+					show: true,
+					text: 'Maximum participants reached',
+					color: 'failure'
+				});
+				return;
+			}
 			commit('userUnRegisterEvent', payload);
 		}
 	},

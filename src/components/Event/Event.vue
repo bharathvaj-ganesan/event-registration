@@ -14,6 +14,7 @@
 				<div>
 					<p>Location : <span class="font-weight-light.font-italic accent--text">{{ event.location }}</span></p>
 					<p>Time : <span class="accent--text">{{ event.timestamp | date }}</span></p>
+					<p>Participants : <span class="accent--text"> {{ event.participants.length }}  /  {{ event.maxParticipants }}</span></p>
 					<template v-if="!isUserOrganizer">
 						<v-btn color="green" dark v-if="!isUserOrganizer && !isUserRegistered" @click="onEventUserRegister">Register</v-btn>
 						<v-btn color="red" dark v-if="isUserRegistered"  @click="onEventUserUnRegister">Un Register</v-btn>
