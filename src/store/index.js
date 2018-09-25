@@ -16,7 +16,7 @@ export default new Vuex.Store({
 				location: 'Chennai',
 				duration: '2', // Hr
 				fee: '700', // INR
-				participants: 10,
+				participants: ['2', '3'],
 				organizer: '1',
 				maxParticipants: 25
 			},
@@ -30,7 +30,7 @@ export default new Vuex.Store({
 				location: 'Mumbai',
 				duration: '4', // Hr
 				fee: '600', // INR
-				participants: 24,
+				participants: ['1', '3'],
 				organizer: '2',
 				maxParticipants: 40
 			},
@@ -42,7 +42,7 @@ export default new Vuex.Store({
 				location: 'Chennai',
 				duration: '6', // Hr
 				fee: '1200', // INR
-				participants: 10,
+				participants: ['1', '4'],
 				organizer: '3',
 				maxParticipants: 60
 			},
@@ -56,7 +56,7 @@ export default new Vuex.Store({
 				location: 'Delhi',
 				duration: '2', // Hr
 				fee: '200', // INR
-				participants: 25,
+				participants: ['1', '3'],
 				organizer: '2',
 				maxParticipants: 50
 			}

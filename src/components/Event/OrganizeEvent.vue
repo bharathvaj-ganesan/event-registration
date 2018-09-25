@@ -44,9 +44,19 @@
 					</v-flex>
 					<v-flex xs12 sm6 offset-sm3>
 						<v-text-field
-						label="Fee"
+						label="Fee (in INR)"
 						:rules="organizeEventFormRules.feeRules"
 						v-model="fees"
+						validate-on-blur
+						box
+						required
+						></v-text-field>
+					</v-flex>
+					<v-flex xs12 sm6 offset-sm3>
+						<v-text-field
+						label="Max Participants"
+						:rules="organizeEventFormRules.maxParticipantsRules"
+						v-model="maxParticipants"
 						validate-on-blur
 						box
 						required
@@ -137,7 +147,8 @@ export default {
 			eventName: '',
 			location: '',
 			description: '',
-			fees: 0,
+			fees: 200,
+			maxParticipants: 50,
 			date: null,
 			time: null,
 			organizeEventFormRules: {
@@ -177,6 +188,13 @@ export default {
 					v => {
 						return !!v || 'Time is required';
 					}
+				],
+				maxParticipantsRules: [
+					v => {
+						return !!v || 'Max participants is required';
+					},
+					v => (v && v < 200) || 'Max participants must be less than 200',
+					v => (v && parseInt(v) > 0) || 'Max participants cannot be in negative values'
 				]
 			}
 		};
@@ -199,14 +217,16 @@ export default {
 	methods: {
 		onOrganizeEvent() {
 			if (this.$refs.organizeEventForm.validate()) {
-				const { eventName: name, location, fees, description, timeStamp } = this;
+				const { eventName: name, location, fees, description, timeStamp, maxParticipants } = this;
 				const eventData = {
 					id: uniqueIdGenerator(),
 					name,
 					location,
 					description,
 					fees,
-					timeStamp
+					timeStamp,
+					maxParticipants,
+					organizer: '1'
 				};
 				this.$store.dispatch('organizeEvent', eventData);
 				this.$router.push('/events');
