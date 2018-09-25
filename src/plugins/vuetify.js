@@ -4,6 +4,10 @@ import 'vuetify/dist/vuetify.min.css';
 
 import colors from 'vuetify/es5/util/colors';
 
+import DateFilter from '@/utils/dateFilter';
+
+Vue.filter('date', DateFilter);
+
 Vue.use(Vuetify, {
 	iconfont: 'md',
 	theme: {

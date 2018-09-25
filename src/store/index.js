@@ -7,7 +7,7 @@ export default new Vuex.Store({
 	state: {
 		events: [
 			{
-				id: '1',
+				id: 'axLltn',
 				name: 'Cyber Security',
 				description: `As a member of IoT Nation NYC, you are invited with
 				 special discounted admission to the 6th annual Cyber Security Summit: New York. 
@@ -16,12 +16,13 @@ export default new Vuex.Store({
 				location: 'Chennai',
 				duration: '2', // Hr
 				fee: '700', // INR
-				participants: ['2', '3'],
-				organizer: '1',
-				maxParticipants: 25
+				participants: ['user2@gmail.com', 'user3@gmail.com'],
+				organizer: 'user1@gmail.com',
+				maxParticipants: 25,
+				timestamp: '2018-09-25T16:08:26.879Z'
 			},
 			{
-				id: '2',
+				id: 'fQYzEH',
 				name: 'Meet for SPEED',
 				description: `Come join us at Meet for SPEED event!
 				Bring your laptop and we'll work together on optimizing our sites.
@@ -30,24 +31,26 @@ export default new Vuex.Store({
 				location: 'Mumbai',
 				duration: '4', // Hr
 				fee: '600', // INR
-				participants: ['1', '3'],
-				organizer: '2',
-				maxParticipants: 40
+				participants: ['user1@gmail.com', 'user3@gmail.com'],
+				organizer: 'user2@gmail.com',
+				maxParticipants: 40,
+				timestamp: '2018-10-25T16:08:26.879Z'
 			},
 			{
-				id: '3',
+				id: 'l9yYQv',
 				name: 'GeekNight 59th Edition',
 				description: `This is a great chance to ask for help, meet like minded people, get career advice and find a mentor. 
 				Feel free to come and just work or come with specific questions.`,
 				location: 'Chennai',
 				duration: '6', // Hr
 				fee: '1200', // INR
-				participants: ['1', '4'],
-				organizer: '3',
-				maxParticipants: 60
+				participants: ['user1@gmail.com', 'user4@gmail.com'],
+				organizer: 'user3@gmail.com',
+				maxParticipants: 60,
+				timestamp: '2018-11-25T16:08:26.879Z'
 			},
 			{
-				id: '4',
+				id: 'mj54Jk',
 				name: 'Information Security',
 				description: `As a member of IoT Nation NYC, you are invited with
 				 special discounted admission to the 6th annual Cyber Security Summit: New York. 
@@ -56,17 +59,18 @@ export default new Vuex.Store({
 				location: 'Delhi',
 				duration: '2', // Hr
 				fee: '200', // INR
-				participants: ['1', '3'],
-				organizer: '2',
-				maxParticipants: 50
+				participants: ['user1@gmail.com', 'user3@gmail.com'],
+				organizer: 'user2@gmail.com',
+				maxParticipants: 50,
+				timestamp: '2018-10-29T16:08:26.879Z'
 			}
 		],
 		users: [
 			{
-				email: 'bharathvaj1995@gmail.com',
+				email: 'user1@gmail.com',
 				password: 'tobekeptsecret',
-				registeredEvents: [],
-				organizedEvents: []
+				registeredEvents: ['mj54Jk', 'l9yYQv', 'fQYzEH'],
+				organizedEvents: ['axLltn']
 			}
 		],
 		user: null,
@@ -113,6 +117,7 @@ export default new Vuex.Store({
 		signinUser({ getters, commit }, payload) {
 			const { email, password } = payload;
 			const user = getters.findUser(email, password);
+			console.log(user);
 			if (user) {
 				commit('setUser', {
 					...user
@@ -145,6 +150,28 @@ export default new Vuex.Store({
 		},
 		user(state) {
 			return state.user;
+		},
+		userRegisteredEvents(state) {
+			const { user, events } = state;
+			const registeredEvents = [];
+			if (!user) {
+				return [];
+			}
+			user.registeredEvents.forEach(eventId => {
+				registeredEvents.push(events.find(event => eventId === event.id));
+			});
+			return registeredEvents;
+		},
+		userOrganizedEvents(state) {
+			const { user, events } = state;
+			const organizedEvents = [];
+			if (!user) {
+				return [];
+			}
+			user.organizedEvents.forEach(eventId => {
+				organizedEvents.push(events.find(event => eventId === event.id));
+			});
+			return organizedEvents;
 		}
 	}
 });

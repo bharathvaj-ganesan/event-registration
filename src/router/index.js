@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import Home from '@/components/Home';
-import Profile from '@/components/Profile';
+import Dashboard from '@/components/Dashboard';
 import Events from '@/components/Event/Events';
 import Event from '@/components/Event/Event';
 import OrganizeEvent from '@/components/Event/OrganizeEvent';
@@ -12,6 +12,7 @@ import AuthGuard from '@/router/authGuard';
 Vue.use(Router);
 
 export default new Router({
+	mode: 'history',
 	routes: [
 		{
 			path: '/',
@@ -19,10 +20,10 @@ export default new Router({
 			component: Home
 		},
 		{
-			path: '/profile',
-			name: 'Profile',
+			path: '/dashboard',
+			name: 'Dashboard',
 			beforeEnter: AuthGuard,
-			component: Profile
+			component: Dashboard
 		},
 		{
 			path: '/signin',
@@ -37,7 +38,6 @@ export default new Router({
 		{
 			path: '/events',
 			name: 'Events',
-			beforeEnter: AuthGuard,
 			component: Events
 		},
 		{
@@ -50,8 +50,8 @@ export default new Router({
 			path: '/events/:id',
 			name: 'Event',
 			props: true,
-			beforeEnter: AuthGuard,
 			component: Event
-		}
+		},
+		{ path: '*', redirect: '/' }
 	]
 });

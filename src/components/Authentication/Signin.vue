@@ -88,7 +88,7 @@ export default {
 							color: 'success'
 						});
 						this.clearForm();
-						this.$router.push('/profile');
+						this.$router.push('/dashboard');
 					})
 					.catch(err => {
 						this.$store.dispatch('setNotification', {
@@ -106,7 +106,7 @@ export default {
 	},
 	created() {
 		if (this.$store.getters.user) {
-			this.$router.push('/profile');
+			this.$router.push('/dashboard');
 		}
 	}
 };

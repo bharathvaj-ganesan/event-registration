@@ -116,7 +116,7 @@ export default {
 	},
 	created() {
 		if (this.$store.getters.user) {
-			this.$router.push('/profile');
+			this.$router.push('/dashboard');
 		}
 	}
 };

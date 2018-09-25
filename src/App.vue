@@ -64,6 +64,11 @@ export default {
 			if (this.user) {
 				return [
 					{
+						icon: 'dashboard',
+						title: 'Dashboard',
+						link: '/dashboard'
+					},
+					{
 						icon: 'event',
 						title: 'Explore',
 						link: '/events'
@@ -91,7 +96,7 @@ export default {
 	},
 	created() {
 		if (this.$store.getters.user) {
-			this.$router.push('/profile');
+			this.$router.push('/dashboard');
 		}
 	},
 	methods: {
