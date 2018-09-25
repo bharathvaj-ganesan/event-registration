@@ -3,6 +3,7 @@ import Router from 'vue-router';
 import Home from '@/components/Home';
 import Profile from '@/components/Profile';
 import Events from '@/components/Event/Events';
+import Event from '@/components/Event/Event';
 import OrganizeEvent from '@/components/Event/OrganizeEvent';
 import Signin from '@/components/Authentication/Signin';
 import Signup from '@/components/Authentication/Signup';
@@ -40,6 +41,12 @@ export default new Router({
 			path: '/events/organize',
 			name: 'OrganizeEvent',
 			component: OrganizeEvent
+		},
+		{
+			path: '/events/:id',
+			name: 'Event',
+			props: true,
+			component: Event
 		}
 	]
 });

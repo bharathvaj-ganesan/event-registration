@@ -1,9 +1,8 @@
 <template>
   <v-app>
-    <v-navigation-drawer app v-model="sideNav">
+    <v-navigation-drawer app v-model="sideNav"  class="hidden-sm-and-up">
       <v-list>
         <v-list-tile v-for="item in menuItems" :key="item.title" 
-          router 
           :to="item.link">
           <v-list-tile-action>
             <v-icon>{{item.icon}}</v-icon>
@@ -17,14 +16,13 @@
     <v-toolbar app dark class="primary">
       <v-toolbar-side-icon
       class="hidden-sm-and-up"
-      @click.native.stop="sideNav = !sideNav"></v-toolbar-side-icon>
+      @click.stop="sideNav = !sideNav"></v-toolbar-side-icon>
       <v-toolbar-title>
         <router-link to="/" class="pointer"><span class="white--text">Eventr</span></router-link>
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items class="hidden-xs-only">
         <v-btn flat  v-for="item in menuItems" :key="item.title"
-          router 
           :to="item.link">
           <v-icon>{{item.icon}}</v-icon>
             {{ item.title}}
@@ -51,7 +49,7 @@ export default {
 			menuItems: [
 				{
 					icon: 'event',
-					title: 'Find Events',
+					title: 'Explore',
 					link: '/events'
 				},
 				{
