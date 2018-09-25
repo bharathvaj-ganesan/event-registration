@@ -25,8 +25,11 @@
         <v-btn flat  v-for="item in menuItems" :key="item.title"
           :to="item.link">
           <v-icon>{{item.icon}}</v-icon>
-            {{ item.title}}
+            {{item.title}}
         </v-btn>
+        <v-btn flat v-if="user" @click="onLogout">
+            <v-icon left dark>exit_to_app</v-icon>Logout
+          </v-btn>
       </v-toolbar-items>
     </v-toolbar>
     <main>
@@ -35,28 +38,44 @@
           <router-view></router-view>
         </v-container>
       </v-content>
+      <app-notification/>
       </main>
     <v-footer app></v-footer>
   </v-app>
 </template>
 
 <script>
+import Notification from '@/components/Shared/Notification';
 export default {
 	name: 'App',
+	components: {
+		appNotification: Notification
+	},
 	data() {
 		return {
-			sideNav: false,
-			menuItems: [
-				{
-					icon: 'event',
-					title: 'Explore',
-					link: '/events'
-				},
-				{
-					icon: 'room',
-					title: 'Organize',
-					link: '/events/organize'
-				},
+			sideNav: false
+		};
+	},
+	computed: {
+		user() {
+			return this.$store.getters.user;
+		},
+		menuItems() {
+			if (this.user) {
+				return [
+					{
+						icon: 'event',
+						title: 'Explore',
+						link: '/events'
+					},
+					{
+						icon: 'room',
+						title: 'Organize',
+						link: '/events/organize'
+					}
+				];
+			}
+			return [
 				{
 					icon: 'face',
 					title: 'Sign up',
@@ -67,8 +86,19 @@ export default {
 					title: 'Sign in',
 					link: '/signin'
 				}
-			]
-		};
+			];
+		}
+	},
+	created() {
+		if (this.$store.getters.user) {
+			this.$router.push('/profile');
+		}
+	},
+	methods: {
+		onLogout() {
+			this.$store.dispatch('logoutUser');
+			this.$router.push('/');
+		}
 	}
 };
 </script>

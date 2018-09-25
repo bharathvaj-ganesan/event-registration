@@ -61,20 +61,73 @@ export default new Vuex.Store({
 				maxParticipants: 50
 			}
 		],
-		user: {
-			id: '',
-			registeredEvents: ['2'],
-			organizedEvents: ['1']
+		users: [
+			{
+				email: 'bharathvaj1995@gmail.com',
+				password: 'tobekeptsecret',
+				registeredEvents: [],
+				organizedEvents: []
+			}
+		],
+		user: null,
+		notification: {
+			show: false,
+			text: '',
+			color: 'info',
+			mode: '',
+			timeout: 0
 		}
 	},
 	mutations: {
 		organizeEvent(state, payload) {
 			state.events.push(payload);
+		},
+		signupUser(state, payload) {
+			state.users.push(payload);
+		},
+		setUser(state, payload) {
+			state.user = payload;
+		},
+		setNotification(state, payload) {
+			state.notification = {
+				show: payload.show,
+				text: payload.text || '',
+				color: payload.color || '',
+				timeout: payload.timeout || 3000
+			};
 		}
 	},
 	actions: {
 		organizeEvent({ commit }, payload) {
 			commit('organizeEvent', payload);
+		},
+		signupUser({ commit }, payload) {
+			// Set default values and faking async
+			payload['registeredEvents'] = [];
+			payload['organizedEvents'] = [];
+			commit('signupUser', payload);
+			return Promise.resolve({
+				...payload
+			});
+		},
+		signinUser({ getters, commit }, payload) {
+			const { email, password } = payload;
+			const user = getters.findUser(email, password);
+			if (user) {
+				commit('setUser', {
+					...user
+				});
+				return Promise.resolve({
+					...user
+				});
+			}
+			return Promise.reject();
+		},
+		setNotification({ commit }, payload) {
+			commit('setNotification', payload);
+		},
+		logoutUser({ commit }) {
+			commit('setUser', null);
 		}
 	},
 	getters: {
@@ -83,6 +136,15 @@ export default new Vuex.Store({
 		},
 		event(state) {
 			return eventId => state.events.find(event => event.id === eventId);
+		},
+		users(state) {
+			return state.users;
+		},
+		findUser(state) {
+			return (email, password) => state.users.find(user => user.email === email && user.password === password);
+		},
+		user(state) {
+			return state.user;
 		}
 	}
 });

@@ -80,6 +80,44 @@ export default {
 		validEmail() {
 			return !this.userEmailValid;
 		}
+	},
+	methods: {
+		onSignup() {
+			if (this.$refs.signupForm.validate()) {
+				const { email, password } = this;
+				const userDetails = {
+					email,
+					password
+				};
+				this.$store
+					.dispatch('signupUser', userDetails)
+					.then(result => {
+						this.$store.dispatch('setNotification', {
+							show: true,
+							text: 'Successfully signedup',
+							color: 'success'
+						});
+						this.clearForm();
+						this.$router.push('/signin');
+					})
+					.catch(err => {
+						this.$store.dispatch('setNotification', {
+							show: true,
+							text: 'Cannot sign up',
+							color: 'failure'
+						});
+					});
+			}
+		},
+		clearForm() {
+			this.email = '';
+			this.password = '';
+		}
+	},
+	created() {
+		if (this.$store.getters.user) {
+			this.$router.push('/profile');
+		}
 	}
 };
 </script>

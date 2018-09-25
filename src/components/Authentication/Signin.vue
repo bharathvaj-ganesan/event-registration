@@ -70,6 +70,44 @@ export default {
 				]
 			}
 		};
+	},
+	methods: {
+		onSignin() {
+			if (this.$refs.signinForm.validate()) {
+				const { email, password } = this;
+				const userDetails = {
+					email,
+					password
+				};
+				this.$store
+					.dispatch('signinUser', userDetails)
+					.then(result => {
+						this.$store.dispatch('setNotification', {
+							show: true,
+							text: 'Successfully signedup',
+							color: 'success'
+						});
+						this.clearForm();
+						this.$router.push('/profile');
+					})
+					.catch(err => {
+						this.$store.dispatch('setNotification', {
+							show: true,
+							text: 'Cannot login',
+							color: 'failure'
+						});
+					});
+			}
+		},
+		clearForm() {
+			this.email = '';
+			this.password = '';
+		}
+	},
+	created() {
+		if (this.$store.getters.user) {
+			this.$router.push('/profile');
+		}
 	}
 };
 </script>
