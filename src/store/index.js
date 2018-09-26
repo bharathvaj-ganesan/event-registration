@@ -4,6 +4,9 @@ import createPersistedState from 'vuex-persistedstate';
 
 Vue.use(Vuex);
 
+//TODO: split the store into multiple child modules
+//TODO: Add API service calls to the server for future into the action section
+
 export default new Vuex.Store({
 	plugins: [
 		createPersistedState({

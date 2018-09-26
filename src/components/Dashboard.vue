@@ -58,8 +58,7 @@ export default {
 		userOrganizedEvents() {
 			return this.$store.getters.userOrganizedEvents;
 		}
-	},
-	methods: {}
+	}
 };
 </script>
 

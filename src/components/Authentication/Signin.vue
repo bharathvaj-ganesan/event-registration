@@ -72,6 +72,9 @@ export default {
 		};
 	},
 	methods: {
+		/**
+		 * Signin Handling function that validates form fields before dispatching the events
+		 */
 		onSignin() {
 			if (this.$refs.signinForm.validate()) {
 				const { email, password } = this;
@@ -99,6 +102,9 @@ export default {
 					});
 			}
 		},
+		/**
+		 * Clears the form
+		 */
 		clearForm() {
 			this.email = '';
 			this.password = '';

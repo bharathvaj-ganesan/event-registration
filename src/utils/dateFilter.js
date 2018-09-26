@@ -1,3 +1,6 @@
+/**
+ * Utility Vue Filter function for to convert ISO date format to more readable format
+ */
 export default value => {
 	const date = new Date(value);
 	return date.toLocaleString(['en-US'], {

@@ -219,6 +219,10 @@ export default {
 		}
 	},
 	methods: {
+		/**
+		 * Organize new event handler
+		 * Validates if the user is signed in
+		 */
 		onOrganizeEvent() {
 			if (this.$refs.organizeEventForm.validate() && this.user) {
 				const { eventName: name, location, fees, description, timestamp, maxParticipants } = this;
@@ -239,6 +243,9 @@ export default {
 				return;
 			}
 		},
+		/**
+		 * Utility function for date picker to disable past days
+		 */
 		allowedEventDates(val) {
 			const today = new Date();
 			const selectedDate = new Date(val);

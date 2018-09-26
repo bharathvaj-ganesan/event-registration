@@ -55,6 +55,10 @@ export default {
 		}
 	},
 	methods: {
+		/**
+		 * User registeration event handler;
+		 * Validates if the user is signed in
+		 */
 		onEventUserRegister() {
 			if (!this.user) {
 				this.$router.push('/signin');
@@ -65,6 +69,10 @@ export default {
 				email: this.user.email
 			});
 		},
+		/**
+		 * User un registeration event handler;
+		 * Validates if the user is signed in
+		 */
 		onEventUserUnRegister() {
 			if (!this.user) {
 				this.$router.push('/signin');

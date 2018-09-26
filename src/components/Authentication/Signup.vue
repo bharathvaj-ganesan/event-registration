@@ -82,6 +82,9 @@ export default {
 		}
 	},
 	methods: {
+		/**
+		 * Signup Handling function that validates form fields before dispatching the events
+		 */
 		onSignup() {
 			if (this.$refs.signupForm.validate()) {
 				const { email, password } = this;
@@ -109,6 +112,9 @@ export default {
 					});
 			}
 		},
+		/**
+		 * Clears the form
+		 */
 		clearForm() {
 			this.email = '';
 			this.password = '';

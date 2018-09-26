@@ -1,3 +1,6 @@
+/**
+ * Utility function to generate unique id for events
+ */
 export default (len = 6) => {
 	const charSet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 	let randomString = '';

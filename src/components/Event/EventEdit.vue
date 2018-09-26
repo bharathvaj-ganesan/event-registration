@@ -127,6 +127,10 @@ export default {
 		};
 	},
 	methods: {
+		/**
+		 * Organizer event update handler;
+		 * Validates if the user is signed in
+		 */
 		onSaveEventChanges() {
 			console.log('triggered');
 			if (this.$refs.organizeEventForm.validate()) {
