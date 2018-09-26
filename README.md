@@ -1,5 +1,11 @@
 # eventr
 
+## Demo Authentication
+
+> email : user1@gmail.com
+
+> pwd : tobekeptsecret
+
 ## Project setup
 
 ```
