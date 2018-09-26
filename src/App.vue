@@ -102,6 +102,7 @@ export default {
 	methods: {
 		onLogout() {
 			this.$store.dispatch('logoutUser');
+			this.$store.dispatch('clearNotification');
 			this.$router.push('/');
 		}
 	}

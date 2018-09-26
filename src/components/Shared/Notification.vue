@@ -2,7 +2,7 @@
   <v-snackbar
       :timeout="snackbarConfig.timeout"
       :color="snackbarConfig.color"
-      :value="showSnackbar"
+      v-model="showSnackbar"
       bottom
       left>
       {{ snackbarConfig.text }}
@@ -13,8 +13,13 @@
 export default {
 	name: 'SnackbarComponent',
 	computed: {
-		showSnackbar() {
-			return this.$store.state.notification.show;
+		showSnackbar: {
+			get() {
+				return this.$store.state.notification.show;
+			},
+			set() {
+				this.$store.dispatch('clearNotification');
+			}
 		},
 		snackbarConfig() {
 			return this.$store.state.notification || {};

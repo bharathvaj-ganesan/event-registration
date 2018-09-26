@@ -37,7 +37,7 @@ export default new Vuex.Store({
 				location: 'Mumbai',
 				duration: '4', // Hr
 				fee: '600', // INR
-				participants: ['user4@gmail.com', 'user3@gmail.com'],
+				participants: ['user1@gmail.com', 'user3@gmail.com'],
 				organizer: 'user2@gmail.com',
 				maxParticipants: 40,
 				timestamp: '2018-10-25T16:08:26.879Z'
@@ -50,7 +50,7 @@ export default new Vuex.Store({
 				location: 'Chennai',
 				duration: '6', // Hr
 				fee: '1200', // INR
-				participants: ['user1@gmail.com', 'user4@gmail.com'],
+				participants: ['user1@gmail.com'],
 				organizer: 'user3@gmail.com',
 				maxParticipants: 60,
 				timestamp: '2018-11-25T16:08:26.879Z'
@@ -75,8 +75,20 @@ export default new Vuex.Store({
 			{
 				email: 'user1@gmail.com',
 				password: 'tobekeptsecret',
-				registeredEvents: ['mj54Jk', 'l9yYQv'],
+				registeredEvents: ['mj54Jk', 'l9yYQv', 'fQYzEH'],
 				organizedEvents: ['axLltn']
+			},
+			{
+				email: 'user2@gmail.com',
+				password: 'tobekeptsecret',
+				registeredEvents: ['axLltn'],
+				organizedEvents: ['mj54Jk', 'fQYzEH']
+			},
+			{
+				email: 'user3@gmail.com',
+				password: 'tobekeptsecret',
+				registeredEvents: ['mj54Jk', 'axLltn', 'fQYzEH'],
+				organizedEvents: ['l9yYQv']
 			}
 		],
 		user: null,
@@ -84,13 +96,21 @@ export default new Vuex.Store({
 			show: false,
 			text: '',
 			color: 'info',
-			mode: '',
 			timeout: 0
 		}
 	},
 	mutations: {
-		organizeEvent(state, payload) {
+		userOrganizeEvent(state, payload) {
+			const { id, organizer } = payload;
+			state.users.find(user => user.email === organizer).organizedEvents.push(id);
 			state.events.push(payload);
+		},
+		updateEventData(state, payload) {
+			const { id } = payload;
+			const event = state.events.find(event => event.id === id);
+			for (let prop in payload) {
+				event[prop] = payload[prop];
+			}
 		},
 		signupUser(state, payload) {
 			state.users.push(payload);
@@ -100,7 +120,7 @@ export default new Vuex.Store({
 		},
 		setNotification(state, payload) {
 			state.notification = {
-				show: payload.show,
+				show: payload.show || false,
 				text: payload.text || '',
 				color: payload.color || '',
 				timeout: payload.timeout || 3000
@@ -121,8 +141,8 @@ export default new Vuex.Store({
 		}
 	},
 	actions: {
-		organizeEvent({ commit }, payload) {
-			commit('organizeEvent', payload);
+		userOrganizeEvent({ commit }, payload) {
+			commit('userOrganizeEvent', payload);
 		},
 		signupUser({ commit }, payload) {
 			// Set default values and faking async
@@ -162,7 +182,7 @@ export default new Vuex.Store({
 		},
 		userUnRegisterEvent({ commit, getters, dispatch }, payload) {
 			const event = getters.event(payload.id);
-			if (event.participants + 1 > event.maxParticipants) {
+			if (event.participants.length + 1 > parseInt(event.maxParticipants)) {
 				dispatch('setNotification', {
 					show: true,
 					text: 'Maximum participants reached',
@@ -171,6 +191,9 @@ export default new Vuex.Store({
 				return;
 			}
 			commit('userUnRegisterEvent', payload);
+		},
+		updateEventData({ commit }, payload) {
+			commit('updateEventData', payload);
 		}
 	},
 	getters: {

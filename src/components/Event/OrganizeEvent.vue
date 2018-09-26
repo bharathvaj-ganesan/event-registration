@@ -118,6 +118,7 @@
 							></v-text-field>
 							<v-time-picker
 							v-model="time"
+							format="24hr"
 							@change="$refs.timeMenu.save(time)"
 							></v-time-picker>
 						</v-menu>
@@ -200,7 +201,7 @@ export default {
 		};
 	},
 	computed: {
-		timeStamp() {
+		timestamp() {
 			const date = new Date(this.date);
 			if (typeof this.time === 'string') {
 				let hours = this.time.match(/^(\d+)/)[1];
@@ -212,23 +213,27 @@ export default {
 				date.setMinutes(this.time.getMinutes());
 			}
 			return date.toISOString();
+		},
+		user() {
+			return this.$store.getters.user;
 		}
 	},
 	methods: {
 		onOrganizeEvent() {
-			if (this.$refs.organizeEventForm.validate()) {
-				const { eventName: name, location, fees, description, timeStamp, maxParticipants } = this;
+			if (this.$refs.organizeEventForm.validate() && this.user) {
+				const { eventName: name, location, fees, description, timestamp, maxParticipants } = this;
 				const eventData = {
 					id: uniqueIdGenerator(),
 					name,
 					location,
 					description,
 					fees,
-					timeStamp,
+					timestamp,
 					maxParticipants,
-					organizer: '1'
+					participants: [],
+					organizer: this.user.email
 				};
-				this.$store.dispatch('organizeEvent', eventData);
+				this.$store.dispatch('userOrganizeEvent', eventData);
 				this.$router.push('/events');
 			} else {
 				return;

@@ -4,27 +4,37 @@
 			<v-flex xs12 sm5>
 				<p class="display-1 accent--text">Registered Events</p>
 				<v-layout row wrap justify-space-between>
-					<v-flex xs12  v-for="event in registeredEvents" :key="event.id" class="mb-2">
-						<app-event-item 
-							:name="event.name"
-							:location="event.location"
-							:description="event.description"
-							:id="event.id"
-							:timestamp="event.timestamp" />
-					</v-flex>
+					<template v-if="userRegisteredEvents.length > 0">
+						<v-flex xs12  v-for="event in userRegisteredEvents" :key="event.id" class="mb-2">
+							<app-event-item 
+								:name="event.name"
+								:location="event.location"
+								:description="event.description"
+								:id="event.id"
+								:timestamp="event.timestamp" />
+						</v-flex>
+					</template>
+					<template v-else>
+						No registered Events
+					</template>
 				</v-layout>
 			</v-flex>
 			<v-flex xs12 sm5>
 				<p class="display-1 accent--text">Organized Events</p>
 				<v-layout row wrap justify-space-between>
-					<v-flex xs12  v-for="event in userOrganizedEvents" :key="event.id" class="mb-2">
-						<app-event-item 
-							:name="event.name"
-							:location="event.location"
-							:description="event.description"
-							:id="event.id"
-							:timestamp="event.timestamp" />
-					</v-flex>
+					<template v-if="userOrganizedEvents.length > 0">
+						<v-flex xs12  v-for="event in userOrganizedEvents" :key="event.id" class="mb-2">
+							<app-event-item 
+								:name="event.name"
+								:location="event.location"
+								:description="event.description"
+								:id="event.id"
+								:timestamp="event.timestamp" />
+						</v-flex>
+					</template>
+					<template v-else>
+						No orgnized Events
+					</template>
 				</v-layout>
 			</v-flex>
 		</v-layout>
@@ -42,7 +52,7 @@ export default {
 		return {};
 	},
 	computed: {
-		registeredEvents() {
+		userRegisteredEvents() {
 			return this.$store.getters.userRegisteredEvents;
 		},
 		userOrganizedEvents() {

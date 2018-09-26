@@ -20,14 +20,22 @@
 						<v-btn color="red" dark v-if="isUserRegistered"  @click="onEventUserUnRegister">Un Register</v-btn>
 					</template>
 				</div>
+				<template v-if="isUserOrganizer && event">
+					<app-event-edit-dialog :event="event" />
+				</template>
 			</v-flex>
 		</v-layout>
 	</v-container>
 </template>
 
 <script>
+import EventEditDialog from '@/components/Event/EventEdit';
+
 export default {
 	name: 'Event',
+	components: {
+		appEventEditDialog: EventEditDialog
+	},
 	props: ['id'],
 	computed: {
 		event() {
