@@ -47,70 +47,70 @@
 <script>
 import Notification from '@/components/Shared/Notification';
 export default {
-	name: 'App',
-	components: {
-		appNotification: Notification
-	},
-	data() {
-		return {
-			sideNav: false
-		};
-	},
-	computed: {
-		user() {
-			return this.$store.getters.user;
-		},
-		menuItems() {
-			if (this.user) {
-				return [
-					{
-						icon: 'dashboard',
-						title: 'Dashboard',
-						link: '/dashboard'
-					},
-					{
-						icon: 'event',
-						title: 'Explore',
-						link: '/events'
-					},
-					{
-						icon: 'room',
-						title: 'Organize',
-						link: '/events/organize'
-					}
-				];
-			}
-			return [
-				{
-					icon: 'face',
-					title: 'Sign up',
-					link: '/signup'
-				},
-				{
-					icon: 'lock_open',
-					title: 'Sign in',
-					link: '/signin'
-				}
-			];
-		}
-	},
-	created() {
-		if (this.$store.getters.user) {
-			this.$router.push('/dashboard');
-		}
-	},
-	methods: {
-		onLogout() {
-			this.$store.dispatch('logoutUser');
-			this.$store.dispatch('clearNotification');
-			this.$router.push('/');
-		}
-	}
+  name: 'App',
+  components: {
+    appNotification: Notification
+  },
+  data() {
+    return {
+      sideNav: false
+    };
+  },
+  computed: {
+    user() {
+      return this.$store.getters.user;
+    },
+    menuItems() {
+      if (this.user) {
+        return [
+          {
+            icon: 'dashboard',
+            title: 'Dashboard',
+            link: '/dashboard'
+          },
+          {
+            icon: 'event',
+            title: 'Explore',
+            link: '/events'
+          },
+          {
+            icon: 'room',
+            title: 'Organize',
+            link: '/events/organize'
+          }
+        ];
+      }
+      return [
+        {
+          icon: 'face',
+          title: 'Sign up',
+          link: '/signup'
+        },
+        {
+          icon: 'lock_open',
+          title: 'Sign in',
+          link: '/signin'
+        }
+      ];
+    }
+  },
+  created() {
+    if (this.$store.getters.user) {
+      this.$router.push('/dashboard');
+    }
+  },
+  methods: {
+    onLogout() {
+      this.$store.dispatch('logoutUser');
+      this.$store.dispatch('clearNotification');
+      this.$router.push('/');
+    }
+  }
 };
 </script>
 <style>
 .pointer {
-	cursor: pointer;
+  cursor: pointer;
 }
 </style>
 

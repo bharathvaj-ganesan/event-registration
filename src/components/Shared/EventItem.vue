@@ -31,7 +31,7 @@
 
 <script>
 export default {
-	props: ['name', 'location', 'description', 'id', 'timestamp']
+  props: ['name', 'location', 'description', 'id', 'timestamp']
 };
 </script>
 

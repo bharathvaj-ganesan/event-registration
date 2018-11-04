@@ -32,58 +32,58 @@
 import EventEditDialog from '@/components/Event/EventEdit';
 
 export default {
-	name: 'Event',
-	components: {
-		appEventEditDialog: EventEditDialog
-	},
-	props: ['id'],
-	computed: {
-		event() {
-			return this.$store.getters.event(this.id);
-		},
-		user() {
-			return this.$store.getters.user;
-		},
-		isUserOrganizer() {
-			return this.user && this.user.organizedEvents.includes(this.id);
-		},
-		isUserRegistered() {
-			if (this.isUserOrganizer) {
-				return false;
-			}
-			return this.user && this.user.registeredEvents.includes(this.id);
-		}
-	},
-	methods: {
-		/**
-		 * User registeration event handler;
-		 * Validates if the user is signed in
-		 */
-		onEventUserRegister() {
-			if (!this.user) {
-				this.$router.push('/signin');
-				return;
-			}
-			this.$store.dispatch('userRegisterEvent', {
-				id: this.id,
-				email: this.user.email
-			});
-		},
-		/**
-		 * User un registeration event handler;
-		 * Validates if the user is signed in
-		 */
-		onEventUserUnRegister() {
-			if (!this.user) {
-				this.$router.push('/signin');
-				return;
-			}
-			this.$store.dispatch('userUnRegisterEvent', {
-				id: this.id,
-				email: this.user.email
-			});
-		}
-	}
+  name: 'Event',
+  components: {
+    appEventEditDialog: EventEditDialog
+  },
+  props: ['id'],
+  computed: {
+    event() {
+      return this.$store.getters.event(this.id);
+    },
+    user() {
+      return this.$store.getters.user;
+    },
+    isUserOrganizer() {
+      return this.user && this.user.organizedEvents.includes(this.id);
+    },
+    isUserRegistered() {
+      if (this.isUserOrganizer) {
+        return false;
+      }
+      return this.user && this.user.registeredEvents.includes(this.id);
+    }
+  },
+  methods: {
+    /**
+     * User registeration event handler;
+     * Validates if the user is signed in
+     */
+    onEventUserRegister() {
+      if (!this.user) {
+        this.$router.push('/signin');
+        return;
+      }
+      this.$store.dispatch('userRegisterEvent', {
+        id: this.id,
+        email: this.user.email
+      });
+    },
+    /**
+     * User un registeration event handler;
+     * Validates if the user is signed in
+     */
+    onEventUserUnRegister() {
+      if (!this.user) {
+        this.$router.push('/signin');
+        return;
+      }
+      this.$store.dispatch('userUnRegisterEvent', {
+        id: this.id,
+        email: this.user.email
+      });
+    }
+  }
 };
 </script>
 

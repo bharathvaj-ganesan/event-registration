@@ -44,21 +44,21 @@
 <script>
 import EventItem from '@/components/Shared/EventItem';
 export default {
-	name: 'dashboard',
-	components: {
-		appEventItem: EventItem
-	},
-	data() {
-		return {};
-	},
-	computed: {
-		userRegisteredEvents() {
-			return this.$store.getters.userRegisteredEvents;
-		},
-		userOrganizedEvents() {
-			return this.$store.getters.userOrganizedEvents;
-		}
-	}
+  name: 'dashboard',
+  components: {
+    appEventItem: EventItem
+  },
+  data() {
+    return {};
+  },
+  computed: {
+    userRegisteredEvents() {
+      return this.$store.getters.userRegisteredEvents;
+    },
+    userOrganizedEvents() {
+      return this.$store.getters.userOrganizedEvents;
+    }
+  }
 };
 </script>
 

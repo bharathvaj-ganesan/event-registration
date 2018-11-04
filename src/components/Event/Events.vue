@@ -16,19 +16,19 @@
 <script>
 import EventItem from '@/components/Shared/EventItem';
 export default {
-	name: 'Event',
-	components: {
-		appEventItem: EventItem
-	},
-	data() {
-		return {};
-	},
-	computed: {
-		allEvents() {
-			return this.$store.getters.allEvents;
-		}
-	},
-	methods: {}
+  name: 'Event',
+  components: {
+    appEventItem: EventItem
+  },
+  data() {
+    return {};
+  },
+  computed: {
+    allEvents() {
+      return this.$store.getters.allEvents;
+    }
+  },
+  methods: {}
 };
 </script>
 

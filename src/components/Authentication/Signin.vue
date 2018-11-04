@@ -51,70 +51,72 @@
 
 <script>
 export default {
-	data() {
-		return {
-			signinValid: true,
-			email: '',
-			password: '',
-			formRules: {
-				emailRules: [
-					v => {
-						return !!v || 'Can I have your Email ID?';
-					},
-					v => /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'Ah! Invalid Email'
-				],
-				passwordRules: [
-					v => {
-						return !!v || 'Could you give us a Password as well?';
-					}
-				]
-			}
-		};
-	},
-	methods: {
-		/**
-		 * Signin Handling function that validates form fields before dispatching the events
-		 */
-		onSignin() {
-			if (this.$refs.signinForm.validate()) {
-				const { email, password } = this;
-				const userDetails = {
-					email,
-					password
-				};
-				this.$store
-					.dispatch('signinUser', userDetails)
-					.then(result => {
-						this.$store.dispatch('setNotification', {
-							show: true,
-							text: 'Successfully signedup',
-							color: 'success'
-						});
-						this.clearForm();
-						this.$router.push('/dashboard');
-					})
-					.catch(err => {
-						this.$store.dispatch('setNotification', {
-							show: true,
-							text: 'Cannot login',
-							color: 'failure'
-						});
-					});
-			}
-		},
-		/**
-		 * Clears the form
-		 */
-		clearForm() {
-			this.email = '';
-			this.password = '';
-		}
-	},
-	created() {
-		if (this.$store.getters.user) {
-			this.$router.push('/dashboard');
-		}
-	}
+  data() {
+    return {
+      signinValid: true,
+      email: '',
+      password: '',
+      formRules: {
+        emailRules: [
+          v => {
+            return !!v || 'Can I have your Email ID?';
+          },
+          v =>
+            /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) ||
+            'Ah! Invalid Email'
+        ],
+        passwordRules: [
+          v => {
+            return !!v || 'Could you give us a Password as well?';
+          }
+        ]
+      }
+    };
+  },
+  methods: {
+    /**
+     * Signin Handling function that validates form fields before dispatching the events
+     */
+    onSignin() {
+      if (this.$refs.signinForm.validate()) {
+        const { email, password } = this;
+        const userDetails = {
+          email,
+          password
+        };
+        this.$store
+          .dispatch('signinUser', userDetails)
+          .then(() => {
+            this.$store.dispatch('setNotification', {
+              show: true,
+              text: 'Successfully signedup',
+              color: 'success'
+            });
+            this.clearForm();
+            this.$router.push('/dashboard');
+          })
+          .catch(() => {
+            this.$store.dispatch('setNotification', {
+              show: true,
+              text: 'Cannot login',
+              color: 'failure'
+            });
+          });
+      }
+    },
+    /**
+     * Clears the form
+     */
+    clearForm() {
+      this.email = '';
+      this.password = '';
+    }
+  },
+  created() {
+    if (this.$store.getters.user) {
+      this.$router.push('/dashboard');
+    }
+  }
 };
 </script>
 

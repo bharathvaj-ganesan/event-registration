@@ -12,46 +12,46 @@ import AuthGuard from '@/router/authGuard';
 Vue.use(Router);
 
 export default new Router({
-	mode: 'history',
-	routes: [
-		{
-			path: '/',
-			name: 'Home',
-			component: Home
-		},
-		{
-			path: '/dashboard',
-			name: 'Dashboard',
-			beforeEnter: AuthGuard,
-			component: Dashboard
-		},
-		{
-			path: '/signin',
-			name: 'Signin',
-			component: Signin
-		},
-		{
-			path: '/signup',
-			name: 'Signup',
-			component: Signup
-		},
-		{
-			path: '/events',
-			name: 'Events',
-			component: Events
-		},
-		{
-			path: '/events/organize',
-			name: 'OrganizeEvent',
-			beforeEnter: AuthGuard,
-			component: OrganizeEvent
-		},
-		{
-			path: '/events/:id',
-			name: 'Event',
-			props: true,
-			component: Event
-		},
-		{ path: '*', redirect: '/' }
-	]
+  mode: 'history',
+  routes: [
+    {
+      path: '/',
+      name: 'Home',
+      component: Home
+    },
+    {
+      path: '/dashboard',
+      name: 'Dashboard',
+      beforeEnter: AuthGuard,
+      component: Dashboard
+    },
+    {
+      path: '/signin',
+      name: 'Signin',
+      component: Signin
+    },
+    {
+      path: '/signup',
+      name: 'Signup',
+      component: Signup
+    },
+    {
+      path: '/events',
+      name: 'Events',
+      component: Events
+    },
+    {
+      path: '/events/organize',
+      name: 'OrganizeEvent',
+      beforeEnter: AuthGuard,
+      component: OrganizeEvent
+    },
+    {
+      path: '/events/:id',
+      name: 'Event',
+      props: true,
+      component: Event
+    },
+    { path: '*', redirect: '/' }
+  ]
 });

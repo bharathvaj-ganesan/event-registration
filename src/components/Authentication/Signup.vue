@@ -12,7 +12,7 @@
 								:rules="signupRules.emailRules"
 								v-model="email"
 								validate-on-blur
-								 autocomplete="off"
+								autocomplete="off"
 								box
 								required
 							></v-text-field>
@@ -24,7 +24,7 @@
 							:rules="signupRules.passwordRules"
 							v-model="password"
 							validate-on-blur
-							 autocomplete="off"
+							autocomplete="off"
 							box
 							required
 							></v-text-field>
@@ -49,82 +49,90 @@
 
 <script>
 export default {
-	data() {
-		return {
-			signupValid: true,
-			email: '',
-			password: '',
-			signupRules: {
-				nameRules: [
-					v => {
-						return !!v || 'Name is required';
-					},
-					v => (v && v.length < 20) || 'Name must be less than 20 characters',
-					v => /^[a-zA-Z ]+$/.test(v) || 'Name can contain only alphabets and white space'
-				],
-				emailRules: [
-					v => {
-						return !!v || 'E-mail is required';
-					},
-					v => /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'
-				],
-				passwordRules: [
-					v => !!v || 'Password is required',
-					v => (v && v.length >= 8) || 'Password must contain atleast 8 characters',
-					v => /^[a-zA-Z0-9]+$/.test(v) || 'Password can contain only alphabets and numbers'
-				]
-			}
-		};
-	},
-	computed: {
-		validEmail() {
-			return !this.userEmailValid;
-		}
-	},
-	methods: {
-		/**
-		 * Signup Handling function that validates form fields before dispatching the events
-		 */
-		onSignup() {
-			if (this.$refs.signupForm.validate()) {
-				const { email, password } = this;
-				const userDetails = {
-					email,
-					password
-				};
-				this.$store
-					.dispatch('signupUser', userDetails)
-					.then(result => {
-						this.$store.dispatch('setNotification', {
-							show: true,
-							text: 'Successfully signedup',
-							color: 'success'
-						});
-						this.clearForm();
-						this.$router.push('/signin');
-					})
-					.catch(err => {
-						this.$store.dispatch('setNotification', {
-							show: true,
-							text: 'Cannot sign up',
-							color: 'failure'
-						});
-					});
-			}
-		},
-		/**
-		 * Clears the form
-		 */
-		clearForm() {
-			this.email = '';
-			this.password = '';
-		}
-	},
-	created() {
-		if (this.$store.getters.user) {
-			this.$router.push('/dashboard');
-		}
-	}
+  data() {
+    return {
+      signupValid: true,
+      email: '',
+      password: '',
+      signupRules: {
+        nameRules: [
+          v => {
+            return !!v || 'Name is required';
+          },
+          v => (v && v.length < 20) || 'Name must be less than 20 characters',
+          v =>
+            /^[a-zA-Z ]+$/.test(v) ||
+            'Name can contain only alphabets and white space'
+        ],
+        emailRules: [
+          v => {
+            return !!v || 'E-mail is required';
+          },
+          v =>
+            /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) ||
+            'E-mail must be valid'
+        ],
+        passwordRules: [
+          v => !!v || 'Password is required',
+          v =>
+            (v && v.length >= 8) ||
+            'Password must contain atleast 8 characters',
+          v =>
+            /^[a-zA-Z0-9]+$/.test(v) ||
+            'Password can contain only alphabets and numbers'
+        ]
+      }
+    };
+  },
+  computed: {
+    validEmail() {
+      return !this.userEmailValid;
+    }
+  },
+  methods: {
+    /**
+     * Signup Handling function that validates form fields before dispatching the events
+     */
+    onSignup() {
+      if (this.$refs.signupForm.validate()) {
+        const { email, password } = this;
+        const userDetails = {
+          email,
+          password
+        };
+        this.$store
+          .dispatch('signupUser', userDetails)
+          .then(() => {
+            this.$store.dispatch('setNotification', {
+              show: true,
+              text: 'Successfully signedup',
+              color: 'success'
+            });
+            this.clearForm();
+            this.$router.push('/signin');
+          })
+          .catch(() => {
+            this.$store.dispatch('setNotification', {
+              show: true,
+              text: 'Cannot sign up',
+              color: 'failure'
+            });
+          });
+      }
+    },
+    /**
+     * Clears the form
+     */
+    clearForm() {
+      this.email = '';
+      this.password = '';
+    }
+  },
+  created() {
+    if (this.$store.getters.user) {
+      this.$router.push('/dashboard');
+    }
+  }
 };
 </script>
 

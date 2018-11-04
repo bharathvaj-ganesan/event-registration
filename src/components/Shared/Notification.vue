@@ -11,20 +11,20 @@
 
 <script>
 export default {
-	name: 'SnackbarComponent',
-	computed: {
-		showSnackbar: {
-			get() {
-				return this.$store.state.notification.show;
-			},
-			set() {
-				this.$store.dispatch('clearNotification');
-			}
-		},
-		snackbarConfig() {
-			return this.$store.state.notification || {};
-		}
-	}
+  name: 'SnackbarComponent',
+  computed: {
+    showSnackbar: {
+      get() {
+        return this.$store.state.notification.show;
+      },
+      set() {
+        this.$store.dispatch('clearNotification');
+      }
+    },
+    snackbarConfig() {
+      return this.$store.state.notification || {};
+    }
+  }
 };
 </script>
 

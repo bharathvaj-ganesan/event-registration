@@ -141,120 +141,135 @@
 <script>
 import uniqueIdGenerator from '@/utils/uniqueIdGenerator';
 export default {
-	name: 'Organize',
-	data() {
-		return {
-			organizeEventForm: false,
-			eventName: '',
-			location: '',
-			description: '',
-			fees: 200,
-			maxParticipants: 50,
-			date: null,
-			time: null,
-			organizeEventFormRules: {
-				nameRules: [
-					v => {
-						return !!v || 'Name is required';
-					},
-					v => (v && v.length < 40) || 'Name must be less than 40 characters',
-					v => /^[a-zA-Z ]+$/.test(v) || 'Name can contain only alphabets and white space'
-				],
-				descriptionRules: [
-					v => {
-						return !!v || 'Description is required';
-					},
-					v => (v && v.length < 300) || 'Description must be less than 300 characters',
-					v => /^[a-zA-Z ]+$/.test(v) || 'Description can contain only alphabets and white space'
-				],
-				locationRules: [
-					v => {
-						return !!v || 'Location is required';
-					},
-					v => (v && v.length < 40) || 'Name must be less than 40 characters'
-				],
-				feeRules: [
-					v => {
-						return !!v || 'Fees is required';
-					},
-					v => (v && v < 2000) || 'Fees must be less than 2000 INR',
-					v => (v && parseInt(v) > 0) || 'Fees cannot be in negative values'
-				],
-				dateRules: [
-					v => {
-						return !!v || 'Date is required';
-					}
-				],
-				timeRules: [
-					v => {
-						return !!v || 'Time is required';
-					}
-				],
-				maxParticipantsRules: [
-					v => {
-						return !!v || 'Max participants is required';
-					},
-					v => (v && v < 200) || 'Max participants must be less than 200',
-					v => (v && parseInt(v) > 0) || 'Max participants cannot be in negative values'
-				]
-			}
-		};
-	},
-	computed: {
-		timestamp() {
-			const date = new Date(this.date);
-			if (typeof this.time === 'string') {
-				let hours = this.time.match(/^(\d+)/)[1];
-				const minutes = this.time.match(/:(\d+)/)[1];
-				date.setHours(hours);
-				date.setMinutes(minutes);
-			} else {
-				date.setHours(this.time.getHours());
-				date.setMinutes(this.time.getMinutes());
-			}
-			return date.toISOString();
-		},
-		user() {
-			return this.$store.getters.user;
-		}
-	},
-	methods: {
-		/**
-		 * Organize new event handler
-		 * Validates if the user is signed in
-		 */
-		onOrganizeEvent() {
-			if (this.$refs.organizeEventForm.validate() && this.user) {
-				const { eventName: name, location, fees, description, timestamp, maxParticipants } = this;
-				const eventData = {
-					id: uniqueIdGenerator(),
-					name,
-					location,
-					description,
-					fees,
-					timestamp,
-					maxParticipants,
-					participants: [],
-					organizer: this.user.email
-				};
-				this.$store.dispatch('userOrganizeEvent', eventData);
-				this.$router.push('/events');
-			} else {
-				return;
-			}
-		},
-		/**
-		 * Utility function for date picker to disable past days
-		 */
-		allowedEventDates(val) {
-			const today = new Date();
-			const selectedDate = new Date(val);
-			if (selectedDate < today) {
-				return false;
-			}
-			return true;
-		}
-	}
+  name: 'Organize',
+  data() {
+    return {
+      organizeEventForm: false,
+      eventName: '',
+      location: '',
+      description: '',
+      fees: 200,
+      maxParticipants: 50,
+      date: null,
+      time: null,
+      organizeEventFormRules: {
+        nameRules: [
+          v => {
+            return !!v || 'Name is required';
+          },
+          v => (v && v.length < 40) || 'Name must be less than 40 characters',
+          v =>
+            /^[a-zA-Z ]+$/.test(v) ||
+            'Name can contain only alphabets and white space'
+        ],
+        descriptionRules: [
+          v => {
+            return !!v || 'Description is required';
+          },
+          v =>
+            (v && v.length < 300) ||
+            'Description must be less than 300 characters',
+          v =>
+            /^[a-zA-Z ]+$/.test(v) ||
+            'Description can contain only alphabets and white space'
+        ],
+        locationRules: [
+          v => {
+            return !!v || 'Location is required';
+          },
+          v => (v && v.length < 40) || 'Name must be less than 40 characters'
+        ],
+        feeRules: [
+          v => {
+            return !!v || 'Fees is required';
+          },
+          v => (v && v < 2000) || 'Fees must be less than 2000 INR',
+          v => (v && parseInt(v) > 0) || 'Fees cannot be in negative values'
+        ],
+        dateRules: [
+          v => {
+            return !!v || 'Date is required';
+          }
+        ],
+        timeRules: [
+          v => {
+            return !!v || 'Time is required';
+          }
+        ],
+        maxParticipantsRules: [
+          v => {
+            return !!v || 'Max participants is required';
+          },
+          v => (v && v < 200) || 'Max participants must be less than 200',
+          v =>
+            (v && parseInt(v) > 0) ||
+            'Max participants cannot be in negative values'
+        ]
+      }
+    };
+  },
+  computed: {
+    timestamp() {
+      const date = new Date(this.date);
+      if (typeof this.time === 'string') {
+        let hours = this.time.match(/^(\d+)/)[1];
+        const minutes = this.time.match(/:(\d+)/)[1];
+        date.setHours(hours);
+        date.setMinutes(minutes);
+      } else {
+        date.setHours(this.time.getHours());
+        date.setMinutes(this.time.getMinutes());
+      }
+      return date.toISOString();
+    },
+    user() {
+      return this.$store.getters.user;
+    }
+  },
+  methods: {
+    /**
+     * Organize new event handler
+     * Validates if the user is signed in
+     */
+    onOrganizeEvent() {
+      if (this.$refs.organizeEventForm.validate() && this.user) {
+        const {
+          eventName: name,
+          location,
+          fees,
+          description,
+          timestamp,
+          maxParticipants
+        } = this;
+        const eventData = {
+          id: uniqueIdGenerator(),
+          name,
+          location,
+          description,
+          fees,
+          timestamp,
+          maxParticipants,
+          participants: [],
+          organizer: this.user.email
+        };
+        this.$store.dispatch('userOrganizeEvent', eventData);
+        this.$router.push('/events');
+      } else {
+        return;
+      }
+    },
+    /**
+     * Utility function for date picker to disable past days
+     */
+    allowedEventDates(val) {
+      const today = new Date();
+      const selectedDate = new Date(val);
+      if (selectedDate < today) {
+        return false;
+      }
+      return true;
+    }
+  }
 };
 </script>
 
